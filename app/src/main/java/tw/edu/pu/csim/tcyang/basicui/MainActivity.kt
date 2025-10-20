@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
@@ -94,6 +93,10 @@ fun Main(modifier: Modifier = Modifier) {
             mper = null
         }
     }
+
+    // 新增狀態變數來控制圖形按鈕的圖片切換
+    var currentImageIndex by remember { mutableStateOf(0) } // 0: 鴨子, 1: 企鵝
+    val imagesToToggle = listOf(R.drawable.animal0, R.drawable.animal1) // 鴨子和企鵝
 
 
     Column (
@@ -265,7 +268,24 @@ fun Main(modifier: Modifier = Modifier) {
             }
         }
 
-
+        Button(
+            onClick = {
+                // 切換圖片索引 (0 -> 1, 1 -> 0)
+                currentImageIndex = (currentImageIndex + 1) % imagesToToggle.size
+            },
+            shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+            elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
+            contentPadding = ButtonDefaults.ContentPadding
+        ) {
+            Image(
+                painter = painterResource(id = imagesToToggle[currentImageIndex]),
+                contentDescription = "可切換的動物圖片",
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+            )
+        }
 
 
     }
